@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3000
+    volumes:
+      - ./:/app:cached
+      - /app/node_modules
+    # If node_modules isn't present inside the container, the command will install deps first
+    command: sh -lc "if [ ! -d node_modules ]; then npm install --silent; fi && npm run dev"
+    tty: true
+    stdin_open: true
